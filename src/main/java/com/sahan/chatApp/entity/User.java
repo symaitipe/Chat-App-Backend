@@ -1,4 +1,4 @@
-package com.sahan.chatApp.model;
+package com.sahan.chatApp.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
