@@ -3,6 +3,8 @@ package com.sahan.chatApp.service;
 import com.sahan.chatApp.entity.User;
 import com.sahan.chatApp.principal.UserDetailsImplementation;
 import com.sahan.chatApp.repository.UserRepo;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -28,8 +30,11 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     }
 
-    // -------------------------- register --------------------------------------------------
-    public User registerUser(User registerRequestedUser){
-        return userRepo.save(registerRequestedUser);
+    public void saveUser(User user) {
+        userRepo.save(user);
+    }
+
+    public User findByPhoneNumber(String phoneNumber) {
+        return userRepo.findById(phoneNumber).orElse(null);
     }
 }

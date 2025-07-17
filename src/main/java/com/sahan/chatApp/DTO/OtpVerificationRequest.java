@@ -1,20 +1,16 @@
 package com.sahan.chatApp.DTO;
 
-
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
+import jakarta.validation.constraints.Pattern;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class LoginRequest {
-
+public class OtpVerificationRequest {
     @NotBlank(message = "Phone number is required")
+    @Pattern(regexp = "^(\\+94|0)?[0-9]{9}$", message = "Invalid Sri Lankan phone number")
     private String phoneNumber;
 
     @NotBlank(message = "OTP is required")
+    @Pattern(regexp = "^[0-9]{4,6}$", message = "Invalid OTP format")
     private String otp;
-
 }
