@@ -1,5 +1,6 @@
 package com.sahan.chatApp.controller;
 
+import com.sahan.chatApp.DTO.LoginRequest;
 import com.sahan.chatApp.DTO.PhoneNumberRequest;
 import com.sahan.chatApp.DTO.OtpVerificationRequest;
 import com.sahan.chatApp.DTO.RegistrationRequest;
@@ -8,7 +9,11 @@ import com.sahan.chatApp.service.CustomUserDetailsService;
 import com.sahan.chatApp.service.OtpService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +26,9 @@ public class UserController {
 
     @Autowired
     private CustomUserDetailsService userService;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
     private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
 
@@ -68,8 +76,13 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> test() {
+    public ResponseEntity<?> test(@RequestBody LoginRequest loginRequest) {
+         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(),loginRequest.getPassword()));
+        if(authentication.isAuthenticated()){
+            return ResponseEntity.ok("Login successful");
+        }else{
+            return new ResponseEntity<>("User Not found", HttpStatusCode.valueOf(404));
+        }
 
-        return ResponseEntity.ok("Registration successful");
     }
 }

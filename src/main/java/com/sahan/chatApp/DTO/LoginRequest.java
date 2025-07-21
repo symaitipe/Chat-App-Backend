@@ -2,6 +2,7 @@ package com.sahan.chatApp.DTO;
 
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,10 +12,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class LoginRequest {
 
-    @NotBlank(message = "Phone number is required")
-    private String phoneNumber;
+    @NotBlank
+    @Size(min = 3, message = "Username must be at least 3 characters")
+    private String username;
 
-    @NotBlank(message = "OTP is required")
-    private String otp;
+    @NotBlank
+    @Size(min = 8, message = "Password must be at least 8 characters")
+    private String password;
 
 }
